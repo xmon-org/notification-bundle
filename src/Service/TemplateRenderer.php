@@ -26,7 +26,7 @@ final readonly class TemplateRenderer
 
         // If no custom template, use default
         if ($template === null) {
-            $template = sprintf('@XmonNotification/default.%s.twig', $format);
+            $template = sprintf('@XmonNotification/email/default.%s.twig', $format);
         }
 
         // If template doesn't have extension, add format
