@@ -20,7 +20,7 @@ Symfony 7 bundle for multi-channel notifications (Email, Telegram, In-App).
 - **Event-driven**: Pre-send, sent, and failed events for extensibility
 - **Template rendering**: Twig templates for customizable notifications
 - **Async support**: Optional Messenger integration for background processing
-- **Type-safe**: PHP 8.3+ with strict types and enums
+- **Type-safe**: PHP 8.2+ with strict types and enums
 - **Symfony 7 best practices**: DI, tagged services, compiler passes
 
 ## Installation
@@ -151,7 +151,7 @@ class NotificationSubscriber implements EventSubscriberInterface
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.2+
 - Symfony 7.0+
 - Symfony Mailer (for email channel)
 - Symfony HttpClient (for Telegram/webhook channels)
