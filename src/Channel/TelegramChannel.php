@@ -54,7 +54,7 @@ final class TelegramChannel extends AbstractChannel
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                error: 'Telegram channel is not configured',
+                message: 'Telegram channel is not configured',
             );
         }
 
@@ -64,17 +64,17 @@ final class TelegramChannel extends AbstractChannel
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                error: 'No Telegram chat ID provided for recipient',
+                message: 'No Telegram chat ID provided for recipient',
             );
         }
 
         try {
-            $message = $this->formatMessage($notification);
+            $text = $this->formatMessage($notification);
 
             $response = $this->httpClient->request('POST', sprintf(self::API_URL, $this->config['bot_token']), [
                 'json' => [
                     'chat_id' => $chatId,
-                    'text' => $message,
+                    'text' => $text,
                     'parse_mode' => 'Markdown',
                     'disable_web_page_preview' => $this->config['disable_preview'] ?? false,
                 ],
@@ -84,28 +84,30 @@ final class TelegramChannel extends AbstractChannel
             $content = $response->toArray(false);
 
             if ($statusCode === 200 && ($content['ok'] ?? false)) {
+                $messageId = (string) ($content['result']['message_id'] ?? '');
                 $this->logger->info('Telegram notification sent', [
                     'chat_id' => $chatId,
-                    'message_id' => $content['result']['message_id'] ?? null,
+                    'message_id' => $messageId,
                 ]);
 
                 return new NotificationResult(
                     channel: $this->getName(),
                     status: ResultStatus::Success,
-                    messageId: (string) ($content['result']['message_id'] ?? ''),
+                    message: sprintf('Telegram message sent (ID: %s)', $messageId),
+                    metadata: ['message_id' => $messageId, 'chat_id' => $chatId],
                 );
             }
 
-            $error = $content['description'] ?? 'Unknown Telegram API error';
+            $errorMsg = $content['description'] ?? 'Unknown Telegram API error';
             $this->logger->error('Telegram API error', [
                 'status_code' => $statusCode,
-                'error' => $error,
+                'error' => $errorMsg,
             ]);
 
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                error: $error,
+                message: $errorMsg,
             );
 
         } catch (\Throwable $e) {
@@ -117,7 +119,7 @@ final class TelegramChannel extends AbstractChannel
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                error: $e->getMessage(),
+                message: $e->getMessage(),
             );
         }
     }

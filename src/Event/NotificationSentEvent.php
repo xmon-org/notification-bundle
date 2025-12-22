@@ -12,12 +12,12 @@ use Xmon\NotificationBundle\Result\NotificationResult;
 /**
  * Event dispatched after a notification is successfully sent.
  */
-final readonly class NotificationSentEvent extends Event
+final class NotificationSentEvent extends Event
 {
     public function __construct(
-        public NotificationInterface $notification,
-        public RecipientInterface $recipient,
-        public NotificationResult $result,
+        public readonly NotificationInterface $notification,
+        public readonly RecipientInterface $recipient,
+        public readonly NotificationResult $result,
     ) {
     }
 }
