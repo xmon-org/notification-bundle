@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('bot_token')->isRequired()->end()
                                 ->scalarNode('default_chat_id')->defaultNull()->end()
+                                ->booleanNode('disable_preview')->defaultFalse()->end()
                             ->end()
                         ->end()
                         // In-App channel
