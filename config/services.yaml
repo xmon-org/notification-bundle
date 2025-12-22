@@ -1,0 +1,26 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Channel Registry (Service Locator)
+    Xmon\NotificationBundle\Channel\ChannelRegistry:
+        arguments:
+            $channels: [] # Populated by ChannelCompilerPass
+
+    # Template Renderer
+    Xmon\NotificationBundle\Service\TemplateRenderer: ~
+
+    # Notification Service (Main orchestrator)
+    Xmon\NotificationBundle\Service\NotificationService:
+        arguments:
+            $defaultChannels: [] # Configured in Extension
+
+    # Email Channel
+    Xmon\NotificationBundle\Channel\EmailChannel:
+        arguments:
+            $from: ''
+            $fromName: ''
+        tags:
+            - { name: 'xmon_notification.channel' }
+            - { name: 'monolog.logger', channel: 'notification' }
