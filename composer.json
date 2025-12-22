@@ -21,6 +21,7 @@
     "require": {
         "php": ">=8.2",
         "symfony/framework-bundle": "^7.0",
+        "symfony/http-client": "^7.0",
         "psr/log": "^3.0"
     },
     "require-dev": {
@@ -28,7 +29,8 @@
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-symfony": "^1.3",
         "phpunit/phpunit": "^10.0|^11.0",
-        "symfony/phpunit-bridge": "^7.0"
+        "symfony/phpunit-bridge": "^7.0",
+        "twig/twig": "^3.0"
     },
     "suggest": {
         "symfony/mailer": "Required for email notifications (^7.0)",
@@ -55,7 +57,10 @@
             "@cs-check",
             "@phpstan",
             "@test"
-        ]
+        ],
+        "setup-hooks": "git config core.hooksPath .githooks",
+        "post-install-cmd": "@setup-hooks",
+        "post-update-cmd": "@setup-hooks"
     },
     "config": {
         "sort-packages": true,
@@ -65,7 +70,6 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "1.0.x-dev"
         }
     },
     "minimum-stability": "stable"
