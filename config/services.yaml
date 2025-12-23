@@ -32,3 +32,10 @@ services:
         tags:
             - { name: 'xmon_notification.channel' }
             - { name: 'monolog.logger', channel: 'notification' }
+
+    # Telegram Service (Advanced API: photos, buttons, webhooks)
+    Xmon\NotificationBundle\Telegram\TelegramService:
+        arguments:
+            $config: []
+        tags:
+            - { name: 'monolog.logger', channel: 'notification' }

@@ -13,6 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Xmon\NotificationBundle\Channel\EmailChannel;
 use Xmon\NotificationBundle\Channel\TelegramChannel;
 use Xmon\NotificationBundle\Service\NotificationService;
+use Xmon\NotificationBundle\Telegram\TelegramService;
 
 class XmonNotificationExtension extends Extension
 {
@@ -47,9 +48,18 @@ class XmonNotificationExtension extends Extension
 
         // Telegram channel
         if (isset($channelsConfig['telegram']['enabled']) && $channelsConfig['telegram']['enabled']) {
+            $telegramConfig = $channelsConfig['telegram'];
+
+            // Configure TelegramChannel (simple notifications)
             if ($this->isHttpClientAvailable() && $container->hasDefinition(TelegramChannel::class)) {
                 $definition = $container->getDefinition(TelegramChannel::class);
-                $definition->setArgument('$config', $channelsConfig['telegram']);
+                $definition->setArgument('$config', $telegramConfig);
+            }
+
+            // Configure TelegramService (advanced: photos, buttons, callbacks)
+            if ($this->isHttpClientAvailable() && $container->hasDefinition(TelegramService::class)) {
+                $definition = $container->getDefinition(TelegramService::class);
+                $definition->setArgument('$config', $telegramConfig);
             }
         }
 
