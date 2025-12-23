@@ -174,4 +174,9 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-Contributions welcome! Please follow Symfony coding standards and include tests.
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
+- Development setup
+- Code standards (PHP-CS-Fixer, PHPStan)
+- Git hooks and commit conventions
+- Pull request process
