@@ -1,20 +1,33 @@
 includes:
+    # Integración Symfony (container, services, etc.)
     - vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
+    # Nivel medio-alto, razonable para un bundle
     level: 5
+
+    # Solo analizamos el código del bundle
     paths:
         - src
+
+    # Código que depende de cosas opcionales o externas
     excludePaths:
-        # Configuración de DI excluida
+        # Configuración interna de Symfony DI
         - src/DependencyInjection/Configuration.php
-        # Archivos que dependen de Sonata (dependencia opcional)
-        - src/Admin
-        - src/Service/MediaStorageService.php
-        # Archivos que dependen de Symfony Form (dependencia opcional)
-        - src/Form
-        - src/Controller
+
+        # Funcionalidades opcionales
+        - src/Event
+        - src/Channel
+        - src/Notification
+        - src/Result
+
+        # Servicios con dependencias externas opcionales
+        #- src/Service/MediaStorageService.php
+
+    # PHPDoc no siempre es verdad en bundles
     treatPhpDocTypesAsCertain: false
+
+    # Ignorar SOLO cosas conocidas y justificadas
     ignoreErrors:
-        # Propiedades preparadas para futuro uso
-        - '#Property .+::\$fallbackModels is never read, only written#'
+        # Propiedades reservadas para uso futuro (diseño intencional)
+       # - '#Property .+::\$fallbackModels is never read, only written#'
