@@ -2,6 +2,12 @@
 
 All notable changes to `xmon-org/notification-bundle` will be documented in this file.
 
+## [1.1.0](https://github.com/xmon-org/notification-bundle/compare/1.0.0...1.1.0) (2025-12-23)
+
+### ✨ Features
+
+* **telegram:** añade TelegramService para API avanzada ([e7dba89](https://github.com/xmon-org/notification-bundle/commit/e7dba89847f99879f309adbe60bb54bca376bdb1))
+
 ## 1.0.0 (2025-12-23)
 
 ### ✨ Features
