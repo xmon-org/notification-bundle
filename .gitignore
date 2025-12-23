@@ -5,22 +5,32 @@
 composer.lock
 
 # PHPUnit
-/.phpunit.cache
-/phpunit.xml
+.phpunit.result.cache
+.phpunit.cache/
+coverage/
 
-# PHP CS Fixer
-/.php-cs-fixer.cache
+# PHP-CS-Fixer
+.php-cs-fixer.cache
 
 # PHPStan
-/phpstan.neon
+phpstan.neon.dist
 
 # IDE
-/.idea
-/.vscode
-*.swp
-*.swo
-*~
+.idea/
+.vscode/
+*.sublime-*
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Build artifacts
+/build/
+/dist/
+
+# Environment
+.env.local
+.env.*.local
+
+# Claude files
+.claude/

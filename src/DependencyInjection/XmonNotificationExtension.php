@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Xmon\NotificationBundle\Channel\EmailChannel;
+use Xmon\NotificationBundle\Channel\TelegramChannel;
 use Xmon\NotificationBundle\Service\NotificationService;
 
 class XmonNotificationExtension extends Extension
@@ -45,9 +47,10 @@ class XmonNotificationExtension extends Extension
 
         // Telegram channel
         if (isset($channelsConfig['telegram']['enabled']) && $channelsConfig['telegram']['enabled']) {
-            // Configuration for TelegramChannel (Phase 2)
-            $container->setParameter('xmon_notification.telegram.bot_token', $channelsConfig['telegram']['bot_token']);
-            $container->setParameter('xmon_notification.telegram.default_chat_id', $channelsConfig['telegram']['default_chat_id'] ?? null);
+            if ($this->isHttpClientAvailable() && $container->hasDefinition(TelegramChannel::class)) {
+                $definition = $container->getDefinition(TelegramChannel::class);
+                $definition->setArgument('$config', $channelsConfig['telegram']);
+            }
         }
 
         // In-App channel
@@ -88,6 +91,11 @@ class XmonNotificationExtension extends Extension
     private function isMailerAvailable(): bool
     {
         return interface_exists(MailerInterface::class);
+    }
+
+    private function isHttpClientAvailable(): bool
+    {
+        return interface_exists(HttpClientInterface::class);
     }
 
     public function getAlias(): string

@@ -30,7 +30,7 @@ abstract class AbstractChannel implements ChannelInterface
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                message: sprintf('Channel %s is not configured', $this->getName()),
+                message: \sprintf('Channel %s is not configured', $this->getName()),
             );
         }
 

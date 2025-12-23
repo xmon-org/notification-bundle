@@ -1,5 +1,16 @@
 # Xmon Notification Bundle
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/xmon-org/notification-bundle.svg?style=flat-square)](https://packagist.org/packages/xmon-org/notification-bundle)
+[![PHP Version](https://img.shields.io/packagist/php-v/xmon-org/notification-bundle.svg?style=flat-square)](https://packagist.org/packages/xmon-org/notification-bundle)
+[![Symfony](https://img.shields.io/badge/Symfony-7.x-purple.svg?style=flat-square&logo=symfony)](https://symfony.com)
+[![Total Downloads](https://img.shields.io/packagist/dt/xmon-org/notification-bundle.svg?style=flat-square)](https://packagist.org/packages/xmon-org/notification-bundle)
+[![License](https://img.shields.io/packagist/l/xmon-org/notification-bundle.svg?style=flat-square)](https://github.com/xmon-org/notification-bundle/blob/main/LICENSE)
+
+
+[![CI](https://github.com/xmon-org/notification-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/xmon-org/notification-bundle/actions/workflows/ci.yml)
+[![semantic-release](https://img.shields.io/badge/semantic--release-conventionalcommits-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+
+
 Symfony 7 bundle for multi-channel notifications (Email, Telegram, In-App).
 
 ## Features
@@ -9,7 +20,7 @@ Symfony 7 bundle for multi-channel notifications (Email, Telegram, In-App).
 - **Event-driven**: Pre-send, sent, and failed events for extensibility
 - **Template rendering**: Twig templates for customizable notifications
 - **Async support**: Optional Messenger integration for background processing
-- **Type-safe**: PHP 8.3+ with strict types and enums
+- **Type-safe**: PHP 8.2+ with strict types and enums
 - **Symfony 7 best practices**: DI, tagged services, compiler passes
 
 ## Installation
@@ -140,7 +151,7 @@ class NotificationSubscriber implements EventSubscriberInterface
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 8.2+
 - Symfony 7.0+
 - Symfony Mailer (for email channel)
 - Symfony HttpClient (for Telegram/webhook channels)

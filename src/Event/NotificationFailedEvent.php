@@ -12,12 +12,12 @@ use Xmon\NotificationBundle\Result\NotificationResult;
 /**
  * Event dispatched when a notification fails to send.
  */
-final readonly class NotificationFailedEvent extends Event
+final class NotificationFailedEvent extends Event
 {
     public function __construct(
-        public NotificationInterface $notification,
-        public RecipientInterface $recipient,
-        public NotificationResult $result,
+        public readonly NotificationInterface $notification,
+        public readonly RecipientInterface $recipient,
+        public readonly NotificationResult $result,
     ) {
     }
 }

@@ -24,3 +24,11 @@ services:
         tags:
             - { name: 'xmon_notification.channel' }
             - { name: 'monolog.logger', channel: 'notification' }
+
+    # Telegram Channel
+    Xmon\NotificationBundle\Channel\TelegramChannel:
+        arguments:
+            $config: []
+        tags:
+            - { name: 'xmon_notification.channel' }
+            - { name: 'monolog.logger', channel: 'notification' }
