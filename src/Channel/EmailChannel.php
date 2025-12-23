@@ -49,7 +49,7 @@ final class EmailChannel extends AbstractChannel
 
             // Create email
             $email = (new Email())
-                ->from($this->fromName !== '' ? sprintf('%s <%s>', $this->fromName, $this->from) : $this->from)
+                ->from($this->fromName !== '' ? \sprintf('%s <%s>', $this->fromName, $this->from) : $this->from)
                 ->to($recipientEmail)
                 ->subject($notification->getTitle())
                 ->html($htmlBody);
@@ -60,13 +60,13 @@ final class EmailChannel extends AbstractChannel
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Success,
-                message: sprintf('Email sent to %s', $recipientEmail),
+                message: \sprintf('Email sent to %s', $recipientEmail),
             );
         } catch (TransportExceptionInterface $e) {
             return new NotificationResult(
                 channel: $this->getName(),
                 status: ResultStatus::Failed,
-                message: sprintf('Failed to send email: %s', $e->getMessage()),
+                message: \sprintf('Failed to send email: %s', $e->getMessage()),
                 metadata: ['exception' => $e::class],
             );
         }

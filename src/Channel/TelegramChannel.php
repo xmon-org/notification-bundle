@@ -71,7 +71,7 @@ final class TelegramChannel extends AbstractChannel
         try {
             $text = $this->formatMessage($notification);
 
-            $response = $this->httpClient->request('POST', sprintf(self::API_URL, $this->config['bot_token']), [
+            $response = $this->httpClient->request('POST', \sprintf(self::API_URL, $this->config['bot_token']), [
                 'json' => [
                     'chat_id' => $chatId,
                     'text' => $text,
@@ -93,7 +93,7 @@ final class TelegramChannel extends AbstractChannel
                 return new NotificationResult(
                     channel: $this->getName(),
                     status: ResultStatus::Success,
-                    message: sprintf('Telegram message sent (ID: %s)', $messageId),
+                    message: \sprintf('Telegram message sent (ID: %s)', $messageId),
                     metadata: ['message_id' => $messageId, 'chat_id' => $chatId],
                 );
             }
@@ -109,7 +109,6 @@ final class TelegramChannel extends AbstractChannel
                 status: ResultStatus::Failed,
                 message: $errorMsg,
             );
-
         } catch (\Throwable $e) {
             $this->logger->error('Telegram notification failed', [
                 'error' => $e->getMessage(),
@@ -142,7 +141,7 @@ final class TelegramChannel extends AbstractChannel
         $message = '';
 
         if ($emoji) {
-            $message .= $emoji . ' ';
+            $message .= $emoji.' ';
         }
 
         $message .= "*{$title}*\n\n";

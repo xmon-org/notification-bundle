@@ -32,7 +32,7 @@ final readonly class ChannelRegistry
             }
         }
 
-        throw new ChannelNotConfiguredException(sprintf('Channel "%s" not found or not configured', $channelName));
+        throw new ChannelNotConfiguredException(\sprintf('Channel "%s" not found or not configured', $channelName));
     }
 
     /**
