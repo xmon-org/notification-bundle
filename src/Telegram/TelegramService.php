@@ -48,10 +48,10 @@ final class TelegramService
     /**
      * Send a text message with optional inline keyboard.
      *
-     * @param string               $chatId       Chat ID to send to
-     * @param string               $text         Message text (Markdown supported)
+     * @param string                $chatId       Chat ID to send to
+     * @param string                $text         Message text (Markdown supported)
      * @param array<TelegramButton> $buttons      Optional buttons
-     * @param array<array<int>>    $buttonLayout Layout matrix (e.g., [[0,1],[2]] = 2 buttons row 1, 1 button row 2)
+     * @param array<array<int>>     $buttonLayout Layout matrix (e.g., [[0,1],[2]] = 2 buttons row 1, 1 button row 2)
      *
      * @return array{ok: bool, message_id?: int, error?: string}
      */
@@ -78,11 +78,11 @@ final class TelegramService
     /**
      * Send a photo with caption and optional inline keyboard.
      *
-     * @param string               $chatId       Chat ID to send to
-     * @param string               $photo        Photo URL or file_id
-     * @param string               $caption      Caption text (max 1024 chars, Markdown supported)
+     * @param string                $chatId       Chat ID to send to
+     * @param string                $photo        Photo URL or file_id
+     * @param string                $caption      Caption text (max 1024 chars, Markdown supported)
      * @param array<TelegramButton> $buttons      Optional buttons
-     * @param array<array<int>>    $buttonLayout Layout matrix
+     * @param array<array<int>>     $buttonLayout Layout matrix
      *
      * @return array{ok: bool, message_id?: int, error?: string}
      */
@@ -135,10 +135,10 @@ final class TelegramService
     /**
      * Edit the inline keyboard of a message.
      *
-     * @param string               $chatId       Chat ID
-     * @param int                  $messageId    Message ID to edit
+     * @param string                $chatId       Chat ID
+     * @param int                   $messageId    Message ID to edit
      * @param array<TelegramButton> $buttons      New buttons (empty to remove keyboard)
-     * @param array<array<int>>    $buttonLayout Layout matrix
+     * @param array<array<int>>     $buttonLayout Layout matrix
      */
     public function editMessageReplyMarkup(
         string $chatId,
@@ -164,11 +164,11 @@ final class TelegramService
     /**
      * Edit the caption of a photo message.
      *
-     * @param string               $chatId       Chat ID
-     * @param int                  $messageId    Message ID to edit
-     * @param string               $caption      New caption
+     * @param string                $chatId       Chat ID
+     * @param int                   $messageId    Message ID to edit
+     * @param string                $caption      New caption
      * @param array<TelegramButton> $buttons      Optional new buttons
-     * @param array<array<int>>    $buttonLayout Layout matrix
+     * @param array<array<int>>     $buttonLayout Layout matrix
      */
     public function editMessageCaption(
         string $chatId,
@@ -195,7 +195,7 @@ final class TelegramService
      * Build inline keyboard from buttons and layout.
      *
      * @param array<TelegramButton> $buttons      Flat array of buttons
-     * @param array<array<int>>    $buttonLayout Matrix defining rows (e.g., [[0,1],[2]])
+     * @param array<array<int>>     $buttonLayout Matrix defining rows (e.g., [[0,1],[2]])
      *                                            If empty, all buttons in one row
      */
     private function buildInlineKeyboard(array $buttons, array $buttonLayout = []): string
@@ -242,7 +242,7 @@ final class TelegramService
             return ['ok' => false, 'error' => 'Telegram is not configured'];
         }
 
-        $url = sprintf(self::API_BASE, $this->config['bot_token'], $method);
+        $url = \sprintf(self::API_BASE, $this->config['bot_token'], $method);
 
         try {
             $response = $this->httpClient->request('POST', $url, [
