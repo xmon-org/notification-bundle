@@ -39,3 +39,11 @@ services:
             $config: []
         tags:
             - { name: 'monolog.logger', channel: 'notification' }
+
+    # Telegram Webhook Controller
+    Xmon\NotificationBundle\Controller\TelegramWebhookController:
+        arguments:
+            $webhookSecret: null
+        tags:
+            - { name: 'controller.service_arguments' }
+            - { name: 'monolog.logger', channel: 'notification' }

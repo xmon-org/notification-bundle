@@ -12,6 +12,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Xmon\NotificationBundle\Channel\EmailChannel;
 use Xmon\NotificationBundle\Channel\TelegramChannel;
+use Xmon\NotificationBundle\Controller\TelegramWebhookController;
 use Xmon\NotificationBundle\Service\NotificationService;
 use Xmon\NotificationBundle\Telegram\TelegramService;
 
@@ -60,6 +61,12 @@ class XmonNotificationExtension extends Extension
             if ($this->isHttpClientAvailable() && $container->hasDefinition(TelegramService::class)) {
                 $definition = $container->getDefinition(TelegramService::class);
                 $definition->setArgument('$config', $telegramConfig);
+            }
+
+            // Configure TelegramWebhookController
+            if ($container->hasDefinition(TelegramWebhookController::class)) {
+                $definition = $container->getDefinition(TelegramWebhookController::class);
+                $definition->setArgument('$webhookSecret', $telegramConfig['webhook_secret'] ?? null);
             }
         }
 

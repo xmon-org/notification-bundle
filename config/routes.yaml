@@ -1,0 +1,9 @@
+# Telegram Webhook Route
+# Import this file in your app's config/routes.yaml:
+#   xmon_notification:
+#     resource: '@XmonNotificationBundle/config/routes.yaml'
+
+xmon_notification_telegram_webhook:
+    path: /webhook/telegram
+    controller: Xmon\NotificationBundle\Controller\TelegramWebhookController
+    methods: [POST]
