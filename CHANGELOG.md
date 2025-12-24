@@ -2,6 +2,16 @@
 
 All notable changes to `xmon-org/notification-bundle` will be documented in this file.
 
+## [1.2.0](https://github.com/xmon-org/notification-bundle/compare/1.1.0...1.2.0) (2025-12-24)
+
+### ✨ Features
+
+* **telegram:** añade soporte para webhook y callbacks de botones ([1ef764f](https://github.com/xmon-org/notification-bundle/commit/1ef764f3018291f3f7a357a8457ebd979e25acd7))
+
+### 📚 Documentation
+
+* add contributing guide and optimize development workflow ([1b696f8](https://github.com/xmon-org/notification-bundle/commit/1b696f88b06906bb8125aa01101d5baf14fb1f41))
+
 ## [1.1.0](https://github.com/xmon-org/notification-bundle/compare/1.0.0...1.1.0) (2025-12-23)
 
 ### ✨ Features
