@@ -35,6 +35,10 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('bot_token')->isRequired()->end()
                                 ->scalarNode('default_chat_id')->defaultNull()->end()
                                 ->booleanNode('disable_preview')->defaultFalse()->end()
+                                ->scalarNode('webhook_secret')
+                                    ->defaultNull()
+                                    ->info('Secret token for webhook validation (X-Telegram-Bot-Api-Secret-Token header)')
+                                ->end()
                             ->end()
                         ->end()
                         // In-App channel

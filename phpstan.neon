@@ -10,24 +10,26 @@ parameters:
     paths:
         - src
 
+    # Cache and parallel settings
+    tmpDir: .phpstan/cache
+    parallel:
+        maximumNumberOfProcesses: 4
+
     # Código que depende de cosas opcionales o externas
     excludePaths:
-        # Configuración interna de Symfony DI
+        # Configuración interna de Symfony DI (no requiere análisis estricto)
         - src/DependencyInjection/Configuration.php
-
-        # Funcionalidades opcionales
-        - src/Event
-        - src/Channel
-        - src/Notification
-        - src/Result
-
-        # Servicios con dependencias externas opcionales
-        #- src/Service/MediaStorageService.php
 
     # PHPDoc no siempre es verdad en bundles
     treatPhpDocTypesAsCertain: false
 
     # Ignorar SOLO cosas conocidas y justificadas
     ignoreErrors:
-        # Propiedades reservadas para uso futuro (diseño intencional)
-       # - '#Property .+::\$fallbackModels is never read, only written#'
+        # Symfony generics (común en bundles)
+        - '#generic class Symfony\\Component\\DependencyInjection\\.+ but does not specify its types#'
+
+        # Event dispatching generics
+        - '#generic interface Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface but does not specify its types#'
+
+    # No reportar errores de ignoreErrors no usados
+    reportUnmatchedIgnoredErrors: false
