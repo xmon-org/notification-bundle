@@ -49,7 +49,9 @@ xmon_notification:
         telegram:
             enabled: true
             bot_token: '%env(TELEGRAM_BOT_TOKEN)%'
-            default_chat_id: '%env(TELEGRAM_CHAT_ID)%'
+            chat_ids:
+                - '%env(TELEGRAM_CHAT_ID_1)%'
+                - '%env(TELEGRAM_CHAT_ID_2)%'
 
         in_app:
             enabled: true

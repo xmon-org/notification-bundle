@@ -11,7 +11,9 @@ xmon_notification:
         telegram:
             enabled: true
             bot_token: '%env(TELEGRAM_BOT_TOKEN)%'
-            default_chat_id: '%env(TELEGRAM_CHAT_ID)%'
+            chat_ids:
+                - '%env(TELEGRAM_CHAT_ID_1)%'
+                - '%env(TELEGRAM_CHAT_ID_2)%'
             disable_preview: false  # optional
 ```
 
@@ -19,7 +21,8 @@ xmon_notification:
 
 ```env
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
-TELEGRAM_CHAT_ID=-1001234567890
+TELEGRAM_CHAT_ID_1=-1001234567890
+TELEGRAM_CHAT_ID_2=123456789
 ```
 
 ## TelegramService
@@ -343,17 +346,20 @@ class NewsNotifier
             TelegramService::escapeMarkdown($article->getSummary())
         );
 
-        $result = $this->telegram->sendPhoto(
-            chatId: $this->telegram->getDefaultChatId(),
-            photo: $article->getImageUrl(),
-            caption: $caption,
-            buttons: $buttons,
-            buttonLayout: [[0, 1], [2]], // 2 buttons top, 1 bottom
-        );
+        // Send to all configured chat_ids
+        foreach ($this->telegram->getChatIds() as $chatId) {
+            $result = $this->telegram->sendPhoto(
+                chatId: $chatId,
+                photo: $article->getImageUrl(),
+                caption: $caption,
+                buttons: $buttons,
+                buttonLayout: [[0, 1], [2]], // 2 buttons top, 1 bottom
+            );
 
-        if ($result['ok']) {
-            // Save message_id to edit/delete later
-            $article->setTelegramMessageId($result['message_id']);
+            if ($result['ok']) {
+                // Save message_id to edit/delete later
+                $article->setTelegramMessageId($result['message_id']);
+            }
         }
     }
 }
