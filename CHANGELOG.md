@@ -2,6 +2,17 @@
 
 All notable changes to `xmon-org/notification-bundle` will be documented in this file.
 
+## [1.3.0](https://github.com/xmon-org/notification-bundle/compare/1.2.0...1.3.0) (2025-12-25)
+
+### ✨ Features
+
+* **telegram:** add deleteMessage method ([c1f9ba8](https://github.com/xmon-org/notification-bundle/commit/c1f9ba843be105dbc008bbbc387fa26fe13ed357))
+* **telegram:** añade sendSticker() para stickers animados ([78a22ff](https://github.com/xmon-org/notification-bundle/commit/78a22ff407b1e570bfb49618ae33edc80476c9a6))
+
+### 📚 Documentation
+
+* add channel documentation for email and telegram ([b5d97ae](https://github.com/xmon-org/notification-bundle/commit/b5d97aeb133c66cdf3c2fbab78a638fae1a350ce))
+
 ## [1.2.0](https://github.com/xmon-org/notification-bundle/compare/1.1.0...1.2.0) (2025-12-24)
 
 ### ✨ Features
