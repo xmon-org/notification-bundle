@@ -2,6 +2,12 @@
 
 All notable changes to `xmon-org/notification-bundle` will be documented in this file.
 
+## [1.4.0](https://github.com/xmon-org/notification-bundle/compare/1.3.0...1.4.0) (2025-12-25)
+
+### ✨ Features
+
+* **telegram:** añade soporte para múltiples chat_ids ([afbd36a](https://github.com/xmon-org/notification-bundle/commit/afbd36af35d7ce9e130e2b527d7983a54d737ee8))
+
 ## [1.3.0](https://github.com/xmon-org/notification-bundle/compare/1.2.0...1.3.0) (2025-12-25)
 
 ### ✨ Features
