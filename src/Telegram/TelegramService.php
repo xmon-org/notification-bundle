@@ -275,6 +275,22 @@ final class TelegramService
     }
 
     /**
+     * Send an animated sticker.
+     *
+     * @param string $chatId  Chat ID to send to
+     * @param string $sticker Sticker file_id (unique per bot)
+     *
+     * @return array{ok: bool, message_id?: int, error?: string}
+     */
+    public function sendSticker(string $chatId, string $sticker): array
+    {
+        return $this->callApi('sendSticker', [
+            'chat_id' => $chatId,
+            'sticker' => $sticker,
+        ]);
+    }
+
+    /**
      * Build inline keyboard from buttons and layout.
      *
      * @param array<TelegramButton> $buttons      Flat array of buttons
