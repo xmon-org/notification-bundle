@@ -85,9 +85,9 @@ final class TelegramChannel extends AbstractChannel
             $results[] = $result;
 
             if ($result->status === ResultStatus::Success) {
-                $successCount++;
+                ++$successCount;
             } else {
-                $failedCount++;
+                ++$failedCount;
                 $firstError ??= $result->message;
             }
         }
