@@ -15,13 +15,19 @@ Symfony 7 bundle for multi-channel notifications (Email, Telegram, In-App).
 
 ## Features
 
-- **Multi-channel support**: Email, Telegram, In-App (Discord, Slack planned)
+- **Multi-channel support**: Email, Telegram (Discord, Slack planned)
+- **Telegram Bot API**: Messages, photos, stickers, inline keyboards, webhooks
 - **Flexible configuration**: YAML-based channel configuration
 - **Event-driven**: Pre-send, sent, and failed events for extensibility
 - **Template rendering**: Twig templates for customizable notifications
 - **Async support**: Optional Messenger integration for background processing
 - **Type-safe**: PHP 8.2+ with strict types and enums
 - **Symfony 7 best practices**: DI, tagged services, compiler passes
+
+## Documentation
+
+- [Email Channel](docs/email.md) - Configuration, templates, events
+- [Telegram Channel](docs/telegram.md) - Bot API, webhooks, inline keyboards
 
 ## Installation
 
@@ -162,13 +168,18 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Development Status
 
-**Phase 1 (Current)**: Core + Email Channel ✅
+**Phase 1**: Core + Email Channel ✅
 - Channel architecture
 - Email channel with Symfony Mailer
 - Event system
 - Template rendering
 
-**Phase 2 (Planned)**: Telegram Channel
+**Phase 2**: Telegram Channel ✅
+- TelegramService with full Bot API support
+- Inline keyboards with callback handling
+- Webhook controller for updates
+- Photo, message, sticker support
+
 **Phase 3 (Planned)**: In-App Notifications (Sonata Admin)
 **Phase 4 (Planned)**: Messenger Async Support
 
