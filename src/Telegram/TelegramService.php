@@ -253,6 +253,28 @@ final class TelegramService
     }
 
     /**
+     * Delete a message.
+     *
+     * Note: Telegram has restrictions on deleting messages:
+     * - Bots can delete outgoing messages in private chats, groups, and supergroups
+     * - Bots can delete incoming messages in private chats
+     * - Bots with can_delete_messages permission can delete any message in groups/supergroups
+     * - Messages older than 48 hours cannot be deleted in supergroups
+     *
+     * @param string $chatId    Chat ID
+     * @param int    $messageId Message ID to delete
+     *
+     * @return array{ok: bool, error?: string}
+     */
+    public function deleteMessage(string $chatId, int $messageId): array
+    {
+        return $this->callApi('deleteMessage', [
+            'chat_id' => $chatId,
+            'message_id' => $messageId,
+        ]);
+    }
+
+    /**
      * Build inline keyboard from buttons and layout.
      *
      * @param array<TelegramButton> $buttons      Flat array of buttons
