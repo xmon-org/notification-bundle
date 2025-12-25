@@ -40,11 +40,13 @@ final class TelegramService
     }
 
     /**
-     * Get the default chat ID from configuration.
+     * Get the configured chat IDs.
+     *
+     * @return array<string>
      */
-    public function getDefaultChatId(): ?string
+    public function getChatIds(): array
     {
-        return $this->config['default_chat_id'] ?? null;
+        return array_map('strval', $this->config['chat_ids'] ?? []);
     }
 
     /**
