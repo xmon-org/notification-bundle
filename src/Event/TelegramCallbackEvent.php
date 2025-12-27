@@ -45,17 +45,18 @@ final class TelegramCallbackEvent extends Event
     }
 
     /**
-     * Parse callback data in "action:id" format.
+     * Parse callback data in "action:id" or "action:id:extra" format.
      *
-     * @return array{action: string, id: int|null}
+     * @return array{action: string, id: int|null, extra: string|null}
      */
     public function parseCallbackData(): array
     {
-        $parts = explode(':', $this->callbackData, 2);
+        $parts = explode(':', $this->callbackData, 3);
 
         return [
             'action' => $parts[0],
             'id' => isset($parts[1]) ? (int) $parts[1] : null,
+            'extra' => $parts[2] ?? null,
         ];
     }
 

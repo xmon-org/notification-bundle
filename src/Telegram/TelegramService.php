@@ -293,6 +293,43 @@ final class TelegramService
     }
 
     /**
+     * Send a message with ForceReply keyboard.
+     *
+     * This forces the user to reply to this message, enabling guided conversations.
+     * The reply will be delivered as a regular message with reply_to_message set.
+     *
+     * @param string $chatId                Chat ID to send to
+     * @param string $text                  Message text (Markdown supported)
+     * @param bool   $selective             Only force reply from specific users (requires reply_to_message_id)
+     * @param string $inputFieldPlaceholder Placeholder text for the input field (max 64 chars)
+     *
+     * @return array{ok: bool, message_id?: int, error?: string}
+     */
+    public function sendMessageWithForceReply(
+        string $chatId,
+        string $text,
+        bool $selective = false,
+        string $inputFieldPlaceholder = '',
+    ): array {
+        $forceReply = ['force_reply' => true];
+
+        if ($selective) {
+            $forceReply['selective'] = true;
+        }
+
+        if (!empty($inputFieldPlaceholder)) {
+            $forceReply['input_field_placeholder'] = mb_substr($inputFieldPlaceholder, 0, 64);
+        }
+
+        return $this->callApi('sendMessage', [
+            'chat_id' => $chatId,
+            'text' => $text,
+            'parse_mode' => 'Markdown',
+            'reply_markup' => json_encode($forceReply),
+        ]);
+    }
+
+    /**
      * Build inline keyboard from buttons and layout.
      *
      * @param array<TelegramButton> $buttons      Flat array of buttons
