@@ -2,6 +2,12 @@
 
 All notable changes to `xmon-org/notification-bundle` will be documented in this file.
 
+## [1.5.0](https://github.com/xmon-org/notification-bundle/compare/1.4.0...1.5.0) (2025-12-27)
+
+### ✨ Features
+
+* **telegram:** añade soporte para mensajes de texto y ForceReply ([c722bb8](https://github.com/xmon-org/notification-bundle/commit/c722bb8543b691c539ce31b77e822469f8d0943a))
+
 ## [1.4.0](https://github.com/xmon-org/notification-bundle/compare/1.3.0...1.4.0) (2025-12-25)
 
 ### ✨ Features
