@@ -17,6 +17,7 @@ Symfony 7 bundle for multi-channel notifications (Email, Telegram, In-App).
 
 - **Multi-channel support**: Email, Telegram (Discord, Slack planned)
 - **Telegram Bot API**: Messages, photos, stickers, inline keyboards, webhooks
+- **Guided conversations**: ForceReply support for multi-step chat interactions
 - **Flexible configuration**: YAML-based channel configuration
 - **Event-driven**: Pre-send, sent, and failed events for extensibility
 - **Template rendering**: Twig templates for customizable notifications
@@ -50,8 +51,8 @@ xmon_notification:
             enabled: true
             bot_token: '%env(TELEGRAM_BOT_TOKEN)%'
             chat_ids:
-                - '%env(TELEGRAM_CHAT_ID_1)%'
-                - '%env(TELEGRAM_CHAT_ID_2)%'
+                - '%env(TELEGRAM_CHAT_ID)%'
+            webhook_secret: '%env(default::TELEGRAM_WEBHOOK_SECRET)%'
 
         in_app:
             enabled: true

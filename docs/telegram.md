@@ -11,18 +11,27 @@ xmon_notification:
         telegram:
             enabled: true
             bot_token: '%env(TELEGRAM_BOT_TOKEN)%'
-            chat_ids:
-                - '%env(TELEGRAM_CHAT_ID_1)%'
-                - '%env(TELEGRAM_CHAT_ID_2)%'
-            disable_preview: false  # optional
+            chat_ids:                # optional, list of chat IDs
+                - '-1001234567890'
+                - '123456789'
+            disable_preview: false   # optional, disable link previews
+            webhook_secret: '%env(default::TELEGRAM_WEBHOOK_SECRET)%'  # optional
 ```
+
+### Configuration Options
+
+| Option | Required | Description |
+|--------|----------|-------------|
+| `bot_token` | Yes | Telegram Bot API token |
+| `chat_ids` | No | List of chat IDs (accessible via `getChatIds()`) |
+| `disable_preview` | No | Disable link previews in messages (default: false) |
+| `webhook_secret` | No | Secret for webhook validation |
 
 ### Environment Variables
 
 ```env
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
-TELEGRAM_CHAT_ID_1=-1001234567890
-TELEGRAM_CHAT_ID_2=123456789
+TELEGRAM_WEBHOOK_SECRET=your-secret-token
 ```
 
 ## TelegramService
@@ -94,6 +103,26 @@ $result = $this->telegramService->sendSticker(
 ```
 
 > **Note**: Sticker `file_id`s are unique per bot. See [Getting sticker file_id](#getting-sticker-file_id) section.
+
+#### sendMessageWithForceReply
+
+Sends a message that forces the user to reply. Useful for guided conversations.
+
+```php
+$result = $this->telegramService->sendMessageWithForceReply(
+    chatId: '-1001234567890',
+    text: 'What is the new title?',
+    selective: false,                    // Only force reply from specific users
+    inputFieldPlaceholder: 'Enter title...', // Placeholder text (max 64 chars)
+);
+
+if ($result['ok']) {
+    $messageId = $result['message_id'];
+    // Store state to process the reply later
+}
+```
+
+> **Note**: When the user replies, it will be received as a `TelegramMessageEvent` with `getReplyToMessageId()` set.
 
 #### answerCallbackQuery
 
@@ -256,10 +285,11 @@ final class MyCallbackListener
 {
     public function __invoke(TelegramCallbackEvent $event): void
     {
-        // Parse callback_data (format "action:id")
+        // Parse callback_data (format "action:id" or "action:id:extra")
         $parsed = $event->parseCallbackData();
         $action = $parsed['action']; // e.g.: "publish"
         $id = $parsed['id'];         // e.g.: 123
+        $extra = $parsed['extra'];   // e.g.: "titulo" (optional third segment)
 
         if ($action !== 'my_action') {
             return; // Not for this listener
@@ -280,12 +310,84 @@ final class MyCallbackListener
 | Method | Description |
 |--------|-------------|
 | `getCallbackQueryId()` | ID for `answerCallbackQuery` |
-| `getCallbackData()` | Button data (e.g.: "publish:123") |
-| `parseCallbackData()` | Parses to `['action' => ..., 'id' => ...]` |
+| `getCallbackData()` | Button data (e.g.: "publish:123" or "edit:123:titulo") |
+| `parseCallbackData()` | Parses to `['action' => ..., 'id' => ..., 'extra' => ...]` |
 | `getChatId()` | Chat ID |
 | `getMessageId()` | Message ID containing the button |
 | `getFrom()` | Info about user who clicked |
 | `getRawUpdate()` | Complete Telegram payload |
+
+## Handling Text Messages
+
+The webhook also handles text messages sent by users. This is useful for implementing guided conversations (e.g., editing content via chat).
+
+### TelegramMessageEvent
+
+Listen to `TelegramMessageEvent` to process text messages:
+
+```php
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Xmon\NotificationBundle\Event\TelegramMessageEvent;
+
+#[AsEventListener(event: TelegramMessageEvent::class)]
+final class MyMessageListener
+{
+    public function __invoke(TelegramMessageEvent $event): void
+    {
+        $text = $event->getText();
+        $chatId = $event->getChatId();
+        $userId = $event->getUserId();
+
+        // Check if this is a reply to a specific message
+        $replyToId = $event->getReplyToMessageId();
+
+        if ($replyToId === null) {
+            return; // Not a reply, maybe not relevant
+        }
+
+        // Process the reply...
+        // e.g., update content in database based on conversation state
+
+        $event->setHandled(true);
+        $event->setResponseMessage('Content updated!'); // Optional response
+    }
+}
+```
+
+### Message Event Properties
+
+| Method | Description |
+|--------|-------------|
+| `getChatId()` | Chat ID where message was sent |
+| `getUserId()` | User ID who sent the message |
+| `getText()` | Message text content |
+| `getMessageId()` | Message ID |
+| `getFrom()` | User info array (id, first_name, username, etc.) |
+| `getSenderName()` | Convenience method: username or first_name |
+| `getReplyToMessageId()` | ID of message being replied to (or null) |
+| `getRawUpdate()` | Complete Telegram payload |
+
+### Guided Conversation Pattern
+
+Combine `sendMessageWithForceReply()` with `TelegramMessageEvent` for multi-step conversations:
+
+```php
+// Step 1: In callback listener, ask for input
+$this->telegramService->sendMessageWithForceReply(
+    chatId: $event->getChatId(),
+    text: "Current title:\n\n`{$article->getTitle()}`\n\nSend the new title:",
+    inputFieldPlaceholder: 'Enter new title...',
+);
+// Save state (chatId, articleId, field='title') in database
+
+// Step 2: In message listener, process the reply
+$state = $this->findActiveState($event->getChatId(), $event->getUserId());
+if ($state && $state->getField() === 'title') {
+    $article = $state->getArticle();
+    $article->setTitle($event->getText());
+    // Clear state, send confirmation
+}
+```
 
 ## Getting Sticker file_id
 
